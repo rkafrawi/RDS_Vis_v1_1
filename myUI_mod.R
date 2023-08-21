@@ -11,25 +11,27 @@ library(Seurat)
 library(SeuratObject)
 library(DT)
 library(shinyalert)
-library(grDevices)
 library(ggplot2)
 
+
+#########           UI START          ##########
+
 # fully defined ui
-dashboardPage(
+ui <- dashboardPage(
   
   # webapp layout #
   dashboardHeader(title = "RDS Vis v1"),
   menu_bar <- dashboardSidebar(
-                sidebarMenu(
-                  menuItem("Home", tabName = "home", icon = icon("home")),
-                  menuItem("Data Summary", tabName="input_summ", icon=icon("table")),
-                  menuItem("Feature Plot", tabName = "input", icon = icon("chart-bar")),
-                  menuItem("Dim Plot", tabName = "dim", icon = icon("cubes")),
-                  menuItem("Violin Plot", tabName = "violin", icon = icon("record-vinyl")),
-                  # menuItem("Volcano Plot", tabName = "volcano", icon = icon("fire")),
-                  menuItem("Help Page", tabName = "help", icon = icon("question"))
-                )
-              ),
+    sidebarMenu(
+      menuItem("Home", tabName = "home", icon = icon("home")),
+      menuItem("Data Summary", tabName="input_summ", icon=icon("table")),
+      menuItem("Feature Plot", tabName = "input", icon = icon("chart-bar")),
+      menuItem("Dim Plot", tabName = "dim", icon = icon("cubes")),
+      menuItem("Violin Plot", tabName = "violin", icon = icon("record-vinyl")),
+      # menuItem("Volcano Plot", tabName = "volcano", icon = icon("fire")),
+      menuItem("Help Page", tabName = "help", icon = icon("question"))
+    )
+  ),
   dashboardBody(
     tabItems(
       tab_home <- tabItem(tabName = "home",
@@ -40,14 +42,14 @@ dashboardPage(
                           br(),
                           p("This web app is designed for the visualization and exploration of single-cell RNA-seq data contained in Seurat objects. 
                              It will provide various interactive plots and features to help you analyze and gain insights from your data. 
-                             Currently, this webapp does not support use of more than 1 GB of memory due to instance size restrictions of shinyapps.io's base plan. 
-                             As such, while the local version that we have been testing does not require the user to refresh between .rds file uploads, the server version you are using in some cases will do so.
-                             This webapp in its current state only exists to give users a sense of the page layout and to give developers insight into user requests.
-                             This memory restriction will no longer exist once the webapp is deployed on DNAnexus, which will lead to a more smooth and streamlined user experience."),
+                             A cloud build of this app is being developed on DNAnexus, which will circumvent the instance size restrictions of shinyapps.io's base plan."),
                           br(),
-                          
+                          p("This web app currently consists of four pages of note: a data summary page, a feature plot page, a dim plot page, and a violin plot page. 
+                            As a general rule of thumb, these pages will not visualize any data if no .rds file has been provided by the user in the data summary page.
+                            Note also that the drop downs on the dim plot and violin plot pages will not display updated categories until a file has been provided by the user."),
+                          br(),
                           #embed href in paragraph sentence
-                          p("Click ", a("here", target="_blank", href="RDS_Vis_1.1.pdf", .noWS = "outside"), " for an in depth user guide.", .noWS = c("after-begin", "before-end")),
+                          p("Click ", a("here", target="_blank", href="https://raw.githubusercontent.com/rkafrawi/RDS_Vis_v1_1/main/RDS_Vis_1.1.pdf", .noWS = "outside"), " for an in depth user guide.", .noWS = c("after-begin", "before-end")),
                           
                           # Add any additional content or UI elements here
       ),
@@ -67,7 +69,7 @@ dashboardPage(
       tab_inputfeatures <- tabItem(tabName = "input",
                                    h2("Feature Plot Page"),
                                    br(),
-                                  
+                                   
                                    br(),
                                    p("Try some of these sample genes:"),
                                    br(),
@@ -94,12 +96,6 @@ dashboardPage(
                                      
                                    )
                                    
-                                   # 
-                                   # tabPanel("UMAP", plotOutput("featurePlot")),
-                                   # br(),
-                                   # textOutput("nofeaturefound"),
-                                   # br()
-                                   
       ),
       # tab_input,
       # tab_feature,
@@ -118,14 +114,14 @@ dashboardPage(
                          #             choices = c("Clusters", "Treatments", "Clonotype", "Cytotoxic" )),
                          selectInput("variableInput", label = "Select a Group:",
                                      choices = "Input File For Dropdown Options"),
-                   
+                         
                          br(),
-  
+                         
                          br(),
                          actionButton("plotButton_Dim","Generate DimPlot"),
                          br(),
                          plotOutput("featurePlotDim", height = 600, width = 900)
-
+                         
       ),
       tab_violin <- tabItem(tabName = "violin",
                             h2("Violin Plot Page"),
@@ -146,7 +142,7 @@ dashboardPage(
       tab_help <- tabItem(tabName = "help",
                           h2("Help Page"),
                           br(),
-                          p("Below are a list of potential FAQs (Subject to change)."),
+                          p("Below are a list of Frequently Asked Questions (FAQs)."),
                           br(),
                           accordion(
                             id = "helpAccordion",
@@ -160,23 +156,36 @@ dashboardPage(
                             ),
                             accordionItem(
                               title = "Is there any way to view tabular representations of the Seurat object?",
-                              "Currently, the server does have prebuilt logic to generate tables of the Seurat object's metadata. It is simply not present in the current version of the user interface to prevent visually bogging down the webapp and general ease of use. "
+                              "Currently, the server does not have prebuilt logic to generate tables of the Seurat object's metadata outside of the summary table on the Data Summary page."
+                            ),
+                            accordionItem(
+                              title = "Why are only some of my categorical variables showing in my dropdown options?",
+                              "For the sake of visual parity, only categorical variables containing less than 5 levels are included from the uploaded .rds file."
                             )
                           ),
                           br(),
                           br(),
                           br(),
-                          #placeholder to make footer show on help page
-                          div(id = "placeholder",p("~ More FAQs in Progress! ~"))
+                          p("Click ", a("here", target="_blank", href="https://satijalab.org/seurat/articles/pbmc3k_tutorial.html", .noWS = "outside"), " to reference the clustering guide used to build this web app.", .noWS = c("after-begin", "before-end")),
+                          
       )
     ), 
     div(class = "hr-container",
+        br(),
         hr(class = "hr-line")),
     # Footer
-    tags$footer(
-      class = "footer",
-      p("Developed for the Belfer Center Research Team by the BxMD Group at DFCI.")
-    ),
+    div(class = "foot",
+        tags$footer(
+          class = "footer",
+          p("Developed for use of the Belfer Center Research Team by the BxMD Group at DFCI."),
+          br(),
+        ),
+        tags$img(
+          src ="https://raw.githubusercontent.com/rkafrawi/RDS_Vis_v1_1/main/bxMD_logo.jpeg",
+          style="display: block; margin-left: auto; margin-right: auto; width:35%; height:15%",
+        )
+        ),
+    
     
     
     # CSS Styling
@@ -189,7 +198,9 @@ dashboardPage(
         border-top: 1px solid #ccc;
         margin: 20px 0;
       }
-      
+      .img {
+    
+      }
       .footer {
         padding: 10px;
         text-align: center;
@@ -203,3 +214,5 @@ dashboardPage(
     "))
   )
 )
+
+#########           UI END          ##########
