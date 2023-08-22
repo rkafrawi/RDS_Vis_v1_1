@@ -17,7 +17,7 @@ library(ggplot2)
 #########           UI START          ##########
 
 # fully defined ui
-ui <- dashboardPage(
+dashboardPage(
   
   # webapp layout #
   dashboardHeader(title = "RDS Vis v1"),
