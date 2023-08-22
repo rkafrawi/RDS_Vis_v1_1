@@ -4,7 +4,7 @@
 
 
 #define server
-server<- function(input, output, session) {
+function(input, output, session) {
   
   ### Define reactive values for global vars...next ver ###
   # seuratData <- reactiveVal()
