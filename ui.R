@@ -1,3 +1,16 @@
+#increase filesize limit
+options(shiny.maxRequestSize=10000*1024^2) #max 10gb upload
+
+# Load the installed packages
+library(shiny)
+library(shinydashboard)
+library(shinydashboardPlus)
+library(purrr)
+library(stringr)
+library(Seurat)
+library(DT)
+library(shinyalert)
+library(ggplot2)
 
 #########           UI START          ##########
 
