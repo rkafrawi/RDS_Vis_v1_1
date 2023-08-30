@@ -1,7 +1,7 @@
 #increase filesize limit
 options(shiny.maxRequestSize=10000*1024^2) #max 10gb upload
 
-# Load the installed packages
+#load libraries
 library(shiny)
 library(shinydashboard)
 library(shinydashboardPlus)
@@ -12,13 +12,19 @@ library(DT)
 library(shinyalert)
 library(ggplot2)
 
+
 #########           UI START          ##########
 
 # fully defined ui
 dashboardPage(
-  
-  # webapp layout #
-  dashboardHeader(title = "RDS Vis v1"),
+      # webapp layout #
+      dashboardHeader(title = "RDS Visualizer v1.1", 
+                        tags$li(
+                            class = "dropdown", 
+                            style = "padding-top: 0px;",
+                            tags$a(target="_blank", href = "https://github.com/rkafrawi/RDS_Vis_v1_1/tree/main", "Github Repo", .noWS = "outside")
+                      )
+  ),
   menu_bar <- dashboardSidebar(
     sidebarMenu(
       menuItem("Home", tabName = "home", icon = icon("home")),
@@ -26,7 +32,6 @@ dashboardPage(
       menuItem("Feature Plot", tabName = "input", icon = icon("chart-bar")),
       menuItem("Dim Plot", tabName = "dim", icon = icon("cubes")),
       menuItem("Violin Plot", tabName = "violin", icon = icon("record-vinyl")),
-      # menuItem("Volcano Plot", tabName = "volcano", icon = icon("fire")),
       menuItem("Help Page", tabName = "help", icon = icon("question"))
     )
   ),
@@ -36,18 +41,18 @@ dashboardPage(
                           h2("Home Page"),
                           br(),
                           br(),
-                          p("Welcome to the RDS Vis Tool!"),
+                          p("Welcome to the RDS Visualizer Tool!"),
                           br(),
                           p("This web app is designed for the visualization and exploration of single-cell RNA-seq data contained in Seurat objects. 
-                             It will provide various interactive plots and features to help you analyze and gain insights from your data. 
-                             A cloud build of this app is being developed on DNAnexus, which will circumvent the instance size restrictions of shinyapps.io's base plan."),
+                             It will provide various plots and features to help you analyze and gain insights from your data. 
+                             This webapp has been optimized/structured a DNAnexus build, which circumvents the instance size restrictions of shinyapps.io's base plan."),
                           br(),
-                          p("This web app currently consists of four pages of note: a data summary page, a feature plot page, a dim plot page, and a violin plot page. 
+                          p("This web app currently consists of four pages of note: a Data Summary page, a Feature Plot page, a Dim Plot page, and a Violin Plot page. 
                             As a general rule of thumb, these pages will not visualize any data if no .rds file has been provided by the user in the data summary page.
-                            Note also that the drop downs on the dim plot and violin plot pages will not display updated categories until a file has been provided by the user."),
+                            Note also that the drop downs on the Dim Plot and Violin Plot pages will not display updated categories until a file has been provided by the user."),
                           br(),
                           #embed href in paragraph sentence
-                          p("Click ", a("here", target="_blank", href="https://raw.githubusercontent.com/rkafrawi/RDS_Vis_v1_1/main/RDS_Vis_1.1.pdf", .noWS = "outside"), " for an in depth user guide.", .noWS = c("after-begin", "before-end")),
+                          p("Click ", a("here", target="_blank", href="https://raw.githubusercontent.com/rkafrawi/RDS_Vis_v1_1/main/docs/RDS_Visualizer_user_guide.pdf", .noWS = "outside"), " for an in depth user guide.", .noWS = c("after-begin", "before-end")),
                           
                           # Add any additional content or UI elements here
       ),
@@ -55,21 +60,30 @@ dashboardPage(
                            h2("Data Summary Page"),
                            br(),
                            #file upload
-                           p("Click on the browse button and select the .rds file you wish to generate a feature plot for (Max 10 GB). 
-                                     Once your upload has completed, some sample genes from the Seurat object will populate below."),
+                           p("Click on the browse button and select the .rds file you wish to generate visualizations for (Max 10 GB)."),
                            fileInput("seuratFile", 
                                      "Upload RDS File",
                                      accept = ".rds"),
                            br(),
-                           p("Table of Seurat object metadata populates below:"),
-                           dataTableOutput("table")
+                           
+                           tabsetPanel(
+                             tabPanel("Metadata Overview",
+                                      br(),
+                                      dataTableOutput("table_cat")
+                                      ),
+                             tabPanel("Metadata",
+                                      br(),
+                                      dataTableOutput("table_meta"))
+                             ),
+                           
+                                      
       ),
       tab_inputfeatures <- tabItem(tabName = "input",
                                    h2("Feature Plot Page"),
                                    br(),
-                                   
+                                   p("Once an .rds file has been uploaded, the top of this page will populate with sample genes."),
                                    br(),
-                                   p("Try some of these sample genes:"),
+                                   p("Try some of these sample genes below:"),
                                    br(),
                                    verbatimTextOutput("sampleGenes"),
                                    br(),
@@ -108,13 +122,8 @@ dashboardPage(
                          checkboxInput("splitToggle", "Split Dim Plot", value = FALSE),
                          
                          br(),
-                         # selectInput("variableInput", label = NULL,
-                         #             choices = c("Clusters", "Treatments", "Clonotype", "Cytotoxic" )),
                          selectInput("variableInput", label = "Select a Group:",
                                      choices = "Input File For Dropdown Options"),
-                         
-                         br(),
-                         
                          br(),
                          actionButton("plotButton_Dim","Generate DimPlot"),
                          br(),
@@ -123,7 +132,6 @@ dashboardPage(
       ),
       tab_violin <- tabItem(tabName = "violin",
                             h2("Violin Plot Page"),
-                            # Add violin plot page content here
                             br(),
                             p("Enter the feature of interest and then select a category to split the plot by:"),
                             br(),
@@ -153,8 +161,8 @@ dashboardPage(
                               "To download the figures, you can right-click on each figure and choose the 'Save Image As' option. Then, select your desired location on your computer to save the image."
                             ),
                             accordionItem(
-                              title = "Is there any way to view tabular representations of the Seurat object?",
-                              "Currently, the server does not have prebuilt logic to generate tables of the Seurat object's metadata outside of the summary table on the Data Summary page."
+                              title = "Is there any way to view tabular representations of the visualizations?",
+                              "Currently, the server does not support table generation to supplement each visual. The only way to inspect tabular representations of the uploaded data is in the Data Summary page."
                             ),
                             accordionItem(
                               title = "Why are only some of my categorical variables showing in my dropdown options?",
@@ -165,6 +173,8 @@ dashboardPage(
                           br(),
                           br(),
                           p("Click ", a("here", target="_blank", href="https://satijalab.org/seurat/articles/pbmc3k_tutorial.html", .noWS = "outside"), " to reference the clustering guide used to build this web app.", .noWS = c("after-begin", "before-end")),
+                          br(),
+                          p("Sample seurat objects can be found ", a("here", target="_blank",  href="https://www.dropbox.com/home/Rizky/RShiny/rds/BMS_DGKi", .noWS = "outside"),  ". Feel free to experiment with these example datasets to familiarize yourself with the web app workflow!", .noWS = c("after-begin", "before-end")),
                           
       )
     ), 
@@ -179,7 +189,7 @@ dashboardPage(
           br(),
         ),
         tags$img(
-          src ="https://raw.githubusercontent.com/rkafrawi/RDS_Vis_v1_1/main/bxMD_logo.jpeg",
+          src ="https://raw.githubusercontent.com/rkafrawi/RDS_Vis_v1_1/main/docs/bxMD_logo.jpeg",
           style="display: block; margin-left: auto; margin-right: auto; width:35%; height:15%",
         )
         ),
