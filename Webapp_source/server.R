@@ -1,5 +1,4 @@
 
-
 #########           SERVER START          ##########
 
 
@@ -23,15 +22,42 @@ function(input, output, session) {
     return(seurat_obj)
   })
   
-  # Render counts table (head)
-  output$table <- DT::renderDataTable({
+  # Render table-categorical only
+  output$table_cat <- DT::renderDataTable({
+    #retrieve seurat object from reactive expression in above code block
+    seurat_data <- seuratData() 
+    if (is.null(seurat_data))
+      return(NULL)
+    
+    #get metadata
+    meta_cat <- as.data.frame(seurat_data@meta.data)
+    
+    # include these collumns if they dont exist
+    columns_to_check <- c("sample", "cytotoxic", "exact_subclonotype_id")
+    
+    # Find and convert columns that match the specified names
+    for (col in columns_to_check) {
+      if (col %in% colnames(meta_cat) && !is.factor(meta_cat[[col]])) {
+        meta_cat[[col]] <- as.factor(meta_cat[[col]])
+      }
+    }
+    
+    #filter metadata by categorical
+    categorical_metadata <- meta_cat[, sapply(meta_cat, is.factor)]
+    
+    #table of cat metadata
+    datatable(categorical_metadata, options=list(scrollX=TRUE))
+  })
+  
+  # Render table-metadata
+  output$table_meta <- DT::renderDataTable({
     #retrieve seurat object from reactive expression in above code block
     seurat_data <- seuratData() 
     if (is.null(seurat_data))
       return(NULL)
     # Metadata
     seurat_df <- as.data.frame(seurat_data@meta.data)
-    datatable(seurat_df)
+    datatable(seurat_df, options=list(scrollX=TRUE))
   })
   
   ### featureplot logic ###
@@ -43,7 +69,8 @@ function(input, output, session) {
       output$errormessage <- renderText("Null file")
     
     # Split the input string @ commas into individual gene names using regex
-    #[[1]] extracts the first element in list of gene names, which gives us a chr vector containing the individaul gene names as separate elements
+    #[[1]] extracts the first element in list of gene names, which gives us a chr vector 
+    #containing the individaul gene names as separate elements
     gene_names <- strsplit(input$featuresInput, ",\\s*")[[1]] 
     gene_names <- trimws(gene_names)  # Trim leading and trailing spaces from gene names
     
@@ -156,9 +183,9 @@ function(input, output, session) {
     categorical_cols <- names(obj_meta)[sapply(obj_meta, function(col) is.factor(col) && nlevels(col) < 5)]
     
     #reassign dropdown options
-    updateSelectInput(session, "variableInput",label = "Select a Field to Split Dimplot By", choices=categorical_cols)
+    updateSelectInput(session, "variableInput",label = "Select a Field to Split Dim Plot By", choices=categorical_cols)
     
-    updateSelectInput(session, "violinInput",label = "Select a Field to Split Dimplot By", choices = categorical_cols)
+    updateSelectInput(session, "violinInput",label = "Select a Field to Split Violin Plot By", choices = categorical_cols)
     
   })
   
@@ -232,4 +259,3 @@ function(input, output, session) {
 } #end of server
 
 #########           SERVER END          ##########
-
