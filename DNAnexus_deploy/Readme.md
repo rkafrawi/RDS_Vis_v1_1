@@ -1,16 +1,16 @@
 <!-- dx-header -->
 # rds_visualizer (DNAnexus Platform App)
 
-RDS visualizing webapp. Accepts file uploads in .rds format and renders a series of user-query guided visualizations including Feature Plots, Dim Plots, Violin plots.
+This applet is a Seurat object visualizing web app. Accepts file uploads in .rds format and renders a series of user-query guided visualizations including Feature Plots, Dim Plots, Violin plots.
 
-This is the source code for an app that runs on the DNAnexus Platform.
-This Readme.md file is based on the DNAnexus documentation pertaining to running RStudio Shiny Server & Apps. For the official documentation on running RStudio Shiny Server & Apps, see
+This is the source code for the used to build and deploy the RDS Visualizer applet that runs on the DNAnexus Platform.
+This `Readme.md` file is based on the DNAnexus documentation pertaining to running RStudio Shiny Server & Apps with modifications made to reflect the workflow I used to build and deploy the web app. For the official documentation on running RStudio Shiny Server & Apps, see
 [https://documentation.dnanexus.com/](https://documentation.dnanexus.com/getting-started/developer-tutorials/web-app-let-tutorials/running-rstudio-shiny-server-and-apps).
 <!-- /dx-header -->
 
 ## Instructions for Building the Web App and Deploying on DNAnexus Cloud Platform
 
-Here I describe the step-by-step approach I took in order to build and deploy the RShiny web app to DNAnexus.
+I will be describing the step-by-step approach I took in order to build and deploy the RShiny web app to DNAnexus and highlighting potential pitfalls or rabbit holes future developers might run into when they try to deploy their own RShiny web app on DNAnexus. 
 
 ### 1. Logging in and running dx-app-wizard
 
