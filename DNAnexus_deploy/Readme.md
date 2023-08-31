@@ -24,7 +24,7 @@ dx login --token <token>
 ```
 ### 2. Now, to create a new app called "flying_kmeans", start the app wizard by executing the command:
 
-flying_kmeans
+flying_kmeans  <br>
 ├── dxapp.json <br>
 ├── src  <br>
 │   └── flying_kmeans.sh  <br>
