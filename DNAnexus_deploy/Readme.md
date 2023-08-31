@@ -31,11 +31,11 @@ This results in a directory with the following layout:
 flying_kmeans <br>
 ├── dxapp.json  <br>
 ├── src  <br>
- │   └── flying_kmeans.sh  <br>
+&emsp;│   └── flying_kmeans.sh  <br>
 ├── Readme.developer.md  <br>
 ├── Readme.md  <br>
 ├── resources  <br>
-└── test
+&emsp;└── test
 
 ### 3. Create web app
 ```
