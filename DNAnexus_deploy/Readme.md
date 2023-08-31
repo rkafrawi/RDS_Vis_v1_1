@@ -159,7 +159,7 @@ In addition, I experienced some issues when I tried building the web app using c
 
 ### 6. Build and deploy
 
-To build and deploy the app, navigate to the folder above 'rds_visualizer' and execute the following command:
+Now that our docker images, shell scripts, json files and applet source code is all set up, we can actually build and deploy the applet. To do so, navigate to the folder above 'rds_visualizer' on your local machine and execute the following command:
 
 ```
 dx build -f rds_visualizer
