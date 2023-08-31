@@ -31,7 +31,7 @@ This results in a directory with the following layout:
 flying_kmeans <br>
 ├── dxapp.json  <br>
 ├── src  <br>
-&emsp;│   └── flying_kmeans.sh  <br>
+&nbsp;│   &emsp;└── flying_kmeans.sh  <br>
 ├── Readme.developer.md  <br>
 ├── Readme.md  <br>
 ├── resources  <br>
