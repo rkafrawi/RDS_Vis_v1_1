@@ -14,7 +14,7 @@ Here I describe the step-by-step approach I took in order to build and deploy th
 
 ### 1. Logging in and running dx-app-wizard
 
-Log into the DNAnexus platform using a token. Tokens can be generated under the user profile > API Tokens. Upon successful login, you will be prompted to select an existing project. 
+Log into the DNAnexus platform using a token. Tokens can be generated under the user profile/API Tokens. Upon successful login, you will be prompted to select an existing project. 
 
 ```
 dx login --token <token>
@@ -50,7 +50,7 @@ Choose an instance type for your app [mem1_ssd1_v2_x4]:  # click <ENTER>
 
 ```
 
-This results in a directory with the following layout:
+This results in a directory in your local system with the following structure:
 
 rds_visualizer <br>
 ├── dxapp.json  <br>
@@ -61,18 +61,18 @@ rds_visualizer <br>
 ├── resources  <br>
 └── test
 
-Note that the 'App Name:' parameter is used for the name of the top folder in the directory as well as the name of the shell script in the src subfolder of the directory. 
+Note that whatever you input as the 'App Name:' parameter in the series of `dx-app-wizard` prompts becomes the name of the top folder in the directory as well as the name of the shell script in the src subfolder. 
 
 ### 3. Convert to web app
 
-The [dxapp.json](./DNAnexus_deploy/dxapp.json) file contains the web app metadata. Within this file, find the following line:
+The [dxapp.json](./DNAnexus_deploy/dxapp.json) file contains the web app metadata. Within this file, find the following lines:
 
 ```
     "version": "0.0.1",
     "inputSpec": [],
 ```
 
-Modify it to the following to convert the app to a web app:
+Modify them to the following to convert the app to a web app:
 
 ```
     "version": "0.0.1",
@@ -111,7 +111,7 @@ RUN R --no-echo --no-restore --no-save -e "install.packages('Seurat')"
 RUN R --no-echo --no-restore --no-save -e "remotes::install_github('mojaveazure/seurat-disk')"
 
 ```
-Note that the Seurat install is not done in line with the other required packages. For whatever reason, including Seurat in the following manner: install.packages(c(...,...,'Seurat')) will cause all the packages besides for Seurat to be installed. Without Seurat, the web app will not run. For organizational purposes, this Docker file and all associated images/tarball files will be kept in the `rds_visualizer/resources` subfolder.
+Note that the Seurat installation is not done in line with the other required packages. For whatever reason, including Seurat in the following manner: install.packages(c(..., ..., 'Seurat')) will cause all the packages besides for Seurat to be installed. Without Seurat, the web app will not run. For organizational purposes, this Docker file and all associated images/tarball files should be kept in the `rds_visualizer/resources` subfolder.
 
 Using the Dockerfile, you can then run the following commands in the CLI:
 
@@ -120,7 +120,7 @@ docker build -t <image_name> .
 docker save <image_name> | gzip > <image_name>.tar.gz
 ```
 
-After building the tarball, make a new directory within the project to contain your docker images. Navigate to the new subdirectory and upload your tarball. Enter the following commands in the CLI:
+After building the tarball, make a new directory within the project on the DNAnexus platform to contain your docker images. Navigate to the new subdirectory and upload your tarball. To do so, enter the following commands into the CLI:
 
 ```
 dx mkdir <Dir_Name>
@@ -130,7 +130,7 @@ dx upload <image_name>.tar.gz
 
 ### 5. Create app code
 
-The file that will be used to create the web app's code will be called [rds_visualizer.sh](./DNAnexus_deploy/rds_visualizer.sh). This script makes a directory in the selected DNAnexus project and pulls the source code from this repository for the build.
+The [rds_visualizer.sh](./DNAnexus_deploy/rds_visualizer.sh) script makes a directory in the selected DNAnexus project and pulls the source code required to build the web app from this repository.
 
 ```
 #!/bin/bash
@@ -141,10 +141,12 @@ main() {
  mkdir rds_vizualizer
  url=https://raw.githubusercontent.com/rkafrawi/RDS_Vis_v1_1/main/Webapp_source
  wget -P rds_visualizer/ $url/DESCRIPTION $url/server.R $url/ui.R
- # pull and run Shiny Server docker image
+
+# pull and run Shiny Server docker image from subfolder
  dx download $DX_PROJECT_CONTEXT_ID:/rk_shiny/rds_vis_maria.tar.gz
  docker load -i rds_vis_maria.tar.gz
- # attach our K-means app's folder as a volume
+
+ # attach our rds_visualizer app's folder as a volume
  docker run --rm -p 443:3838 -v $PWD/rds_visualizer:/srv/shiny-server/ rds_vis_maria
 }
 ```
@@ -169,7 +171,10 @@ A successful build and deploy to the platform will result in the resulting apple
 ```
 
 At this point, your project directory will look something like this:
+
 ![project](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/project.png)
+
+The tarball image you created to build the web app will be contained in the folder of your naming and below it will be your web app.
 
 ### 7. Start the app
 
@@ -189,9 +194,7 @@ After clicking on 'Launch Analysis,' the DNAnexus platform will launch a job nam
 
 ![app_job](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/app_job.png)
 
-Be sure to wait several minutes after the URL populates before trying to access the link. Otherwise, you will be presented with a "502 Bad Gateway" browser error loading the page. This is normal and occurs when the web server part is ready but the web app is not yet ready to listen to connections.
-
-Clicking on the link will redirect you to the web app Home Page.
+Be sure to wait several minutes after the URL populates before trying to access the link. Otherwise, you will be presented with a "502 Bad Gateway" browser error loading the page. This is normal and occurs when the web server part is ready but the web app is not yet ready to listen to connections. Clicking on the link once the web app is ready will redirect you to the Home Page.
 
 ![home](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/home.png)
 
