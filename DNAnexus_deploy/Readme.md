@@ -65,7 +65,7 @@ Note that whatever you input as the 'App Name:' parameter in the series of `dx-a
 
 ### 3. Convert to web app
 
-The [dxapp.json](./DNAnexus_deploy/dxapp.json) file contains the web app metadata. Within this file, find the following lines:
+The [dxapp.json](./dxapp.json) file contains the web app metadata. Within this file, find the following lines:
 
 ```
     "version": "0.0.1",
@@ -85,7 +85,7 @@ Modify them to the following to convert the app to a web app:
 
 ### 4. Containerization
 
-To build the web app, a docker image containing the required packages needs to be created using a rocker/shiny base. To do so, you can follow the logic of the following [Dockerfile](./DNAnexus_deploy/Dockerfile):
+To build the web app, a docker image containing the required packages needs to be created using a rocker/shiny base. To do so, you can follow the logic of the following [Dockerfile](./Dockerfile):
 
 ```
 # base image: rocker/verse (with a specific version of R)
@@ -130,7 +130,7 @@ dx upload <image_name>.tar.gz
 
 ### 5. Create app code
 
-The [rds_visualizer.sh](./DNAnexus_deploy/rds_visualizer.sh) script makes a directory in the selected DNAnexus project and pulls the source code required to build the web app from this repository.
+The [rds_visualizer.sh](./rds_visualizer.sh) script makes a directory in the selected DNAnexus project and pulls the source code required to build the web app from this repository.
 
 ```
 #!/bin/bash
