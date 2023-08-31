@@ -158,7 +158,7 @@ dx build -f rds_visualizer
 A successful build and deploy to the platform will result in the resulting applet ID being printed into the CLI:
 
 ```
-{"id": "applet-GYjF85j07Xbqx1vYf1K59PqV"}
+{"id": "applet-abcdefghijklmnop"}
 ```
 ### 7. Start the app
 
