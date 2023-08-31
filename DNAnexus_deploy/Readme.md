@@ -8,13 +8,11 @@ This Readme.md file is based on the DNAnexus documentation pertaining to running
 [https://documentation.dnanexus.com/](https://documentation.dnanexus.com/getting-started/developer-tutorials/web-app-let-tutorials/running-rstudio-shiny-server-and-apps).
 <!-- /dx-header -->
 
-<!-- Insert a description of your app here -->
-The `DNAnexus_deploy/Dockerfile` was used to generate the rshiny image used to build the Docker image used in the web app. The `DNAnexus_deploy/dxapp.json` file contains the web app metadata. Lastly, the `DNAnexus_deploy/rds_visualizer.sh` script was used to build and deploy the web app.
+## Instructions for Building the Web App and Deploying on DNAnexus Cloud Platform
 
-## Instructions for Web App Build/Deploy
-Here I describe the step-by-step approach I took in order to build and deploy the RShiny webapp to DNAnexus.
+Here I describe the step-by-step approach I took in order to build and deploy the RShiny web app to DNAnexus.
 
-### 1.Logging in and running dx-app-wizard
+### 1. Logging in and running dx-app-wizard
 
 Log into the DNAnexus platform using a token. Tokens can be generated under the user profile > API Tokens. The user will be prompted to select an existing project. When creating a token, make sure the token scope is set to all projects. Otherwise, the user will only have VIEW level permissions when selecting a project. 
 
@@ -80,7 +78,7 @@ Modify it to the following to convert the app to a web app:
     "inputSpec": [],
 ```
 
-### 4. Create Docker Image
+### 4. Containerization
 
 To run the web app, a docker image containing the required packages needs to be created using a rocker/shiny base. To do so, users can follow the logic of the following [Dockerfile](./DNAnexus_deploy/Dockerfile):
 
