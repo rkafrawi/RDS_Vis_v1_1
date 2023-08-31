@@ -53,7 +53,8 @@ rds_visualizer <br>
 &nbsp;│&emsp;└── rds_visualizer.sh  <br>
 ├── Readme.developer.md  <br>
 ├── Readme.md  <br>
-├── resources  <br>└── test
+├── resources  <br>
+└── test
 
 Note that the 'App Name:' parameter is used for the name of the top folder in the directory as well as the name of the shell script in the src subfolder of the directory. 
 
