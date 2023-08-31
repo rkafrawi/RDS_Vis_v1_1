@@ -41,7 +41,7 @@ dashboardPage(
                           h2("Home Page"),
                           br(),
                           br(),
-                          p("Welcome to the RDS Visualizer Tool (v1.1)!"),
+                          p("Welcome to the RDS Visualizer Web App (v1.1)!"),
                           br(),
                           p("This web app is designed for the visualization and exploration of single-cell RNA-seq data contained in Seurat objects. 
                              It will provide various plots and features to help you analyze and gain insights from your data. 
