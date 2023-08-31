@@ -153,6 +153,8 @@ This shell script deviates from the one present in the official [documentation](
 
 Note also that the `DESCRIPTION` file is required since the `DisplayMode` parameter is contained here and if you want to change the display to 'Showcase' mode, you would have to modify it within the  `DESCRIPTION` file.
 
+In addition, I experienced some issues when I tried building the web app using customized names of the server and ui scripts. For example, naming the scripts  `RK_ui` and `RK_Server` caused errors during the build. That being said, I reccomend leaving the names of the server/ui scripts `server.R` and `ui.R` respectively to avoid any unecessary complications. 
+
 ### 6. Build and deploy
 
 To build and deploy the app, navigate to the folder above 'rds_visualizer' and execute the following command:
@@ -167,14 +169,19 @@ A successful build and deploy to the platform will result in the resulting apple
 ```
 
 At this point, your project directory will look something like this:
-
 ![project](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/project.png)
 
 ### 7. Start the app
 
-Click on the app under the selected project to run the web app and click 'next.' 
-Then, click on 'Start Analysis' at the top right-hand side of the DNAnexus website and click 'Launch Analysis' on the following popup.
+Click on the app under the selected project to run the web app and click 'next.'
 
-## Parting Developer Notes
+![run_app](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/run_app.png)
+
+
+
+Then, click on 'Start Analysis' at the top right-hand side of the DNAnexus website.
+
+
+The following popup will have a 'Launch Analysis' button. Click on this, there should be no need to modify the app launch configurations as they were already specified when you initialized the app using `dx-app-wizard`.
 
 
