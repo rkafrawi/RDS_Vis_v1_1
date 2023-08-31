@@ -14,7 +14,7 @@ Here I describe the step-by-step approach I took in order to build and deploy th
 
 ### 1. Logging in and running dx-app-wizard
 
-Log into the DNAnexus platform using a token. Tokens can be generated under the user profile > API Tokens. The user will be prompted to select an existing project. When creating a token, make sure the token scope is set to all projects. Otherwise, the user will only have VIEW level permissions when selecting a project. 
+Log into the DNAnexus platform using a token. Tokens can be generated under the user profile > API Tokens. Upon successful login, the user will be prompted to select an existing project. When creating a token, make sure the token scope is set to all projects. Otherwise, the user will only have VIEW level permissions when selecting a project. 
 
 ```
 dx login --token <token>
@@ -22,7 +22,7 @@ dx login --token <token>
 # Select the project where you want to deploy your app.
 ```
 
-### 2. Start the app wizard to create a new app:
+### 2. Start the app wizard to create a new app
 
 The wizard will ask the user questions to finalize the app's configuration.
 
@@ -60,7 +60,7 @@ Note that the 'App Name:' parameter is used for the name of the top folder in th
 
 ### 3. Create web app
 
-The dxapp.json file contains the web app metadata. Within the dxapp.json file, find the following line:
+The [dxapp.json](./DNAnexus_deploy/dxapp.json) file contains the web app metadata. Within this file, find the following line:
 
 ```
     "version": "0.0.1",
@@ -80,7 +80,7 @@ Modify it to the following to convert the app to a web app:
 
 ### 4. Containerization
 
-To run the web app, a docker image containing the required packages needs to be created using a rocker/shiny base. To do so, users can follow the logic of the following [Dockerfile](./DNAnexus_deploy/Dockerfile):
+To build the web app, a docker image containing the required packages needs to be created using a rocker/shiny base. To do so, users can follow the logic of the following [Dockerfile](./DNAnexus_deploy/Dockerfile):
 
 ```
 # base image: rocker/verse (with a specific version of R)
@@ -108,7 +108,7 @@ RUN R --no-echo --no-restore --no-save -e "remotes::install_github('mojaveazure/
 ```
 Note that the Seurat install is not done in line with the other required packages. For whatever reason, including Seurat in the following manner: install.packages(c(...,...,'Seurat')) will cause all the packages besides for Seurat to be installed. Without Seurat, the web app will not run. For organizational purposes, this Docker file and all associated images/tarball files will be kept in the `rds_visualizer/resources` subfolder.
 
-Using the Dockerfile, users can then run the following commands in a terminal session:
+Using the Dockerfile, users can then run the following commands in the CLI:
 
 ```
 docker build -t <image_name> . 
@@ -116,7 +116,8 @@ docker save <image_name> | gzip > <image_name>.tar.gz
 ```
 
 ### 5. Create app code
-The file that will be used to create the web app's code will be called rds_visualizer.sh. Ths script makes a directory in the selected DNAnexus project.
+
+The file that will be used to create the web app's code will be called [rds_visualizer.sh](./DNAnexus_deploy/rds_visualizer.sh). This script makes a directory in the selected DNAnexus project and pulls the source code from this repository for the build.
 
 ```
 #!/bin/bash
@@ -136,11 +137,18 @@ main() {
 ```
 ### 6. Build and deploy
 
+To build and deploy the app, navigate to the folder above 'rds_visualizer' and execute the following command:
+
 ```
 dx build -f rds_visualizer
 ```
+A successful build and deploy to the platform will result in the resulting applet ID being printed into the CLI:
 
+```
+{"id": "applet-GYjF85j07Xbqx1vYf1K59PqV"}
+```
 ### 7. Start the app
+
 Click on the app under the selected project to run the web app and click 'next.' Then, click on 'Start Analysis' at the top right-hand side of the DNAnexus website and click 'Launch Analysis' on the following popup.
 
 ## Parting Developer Notes
