@@ -194,7 +194,7 @@ After clicking on 'Launch Analysis,' the DNAnexus platform will launch a job nam
 
 ![app_job](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/app_job.png)
 
-Be sure to wait several minutes after the URL populates before trying to access the link. Otherwise, you will be presented with a "502 Bad Gateway" browser error loading the page. This is normal and occurs when the web server part is ready but the web app is not yet ready to listen to connections. Clicking on the link once the web app is ready will redirect you to the Home Page.
+Be sure to wait several minutes after the URL populates before trying to access the link. Otherwise, you will be presented with a "502 Bad Gateway" browser error loading the page. This is normal and occurs when the web server part is ready but the web app is not yet ready to listen to connections. Clicking on the link once the web app is ready will redirect you to the Home Page. For further instructions on how to get started with the web app, please refer to the [user guide](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/RDS_Visualizer_user_guide.pdf).
 
 ![home](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/home.png)
 
