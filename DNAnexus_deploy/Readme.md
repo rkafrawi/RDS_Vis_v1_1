@@ -177,11 +177,22 @@ Click on the app under the selected project to run the web app and click 'next.'
 
 ![run_app](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/run_app.png)
 
-
-
 Then, click on 'Start Analysis' at the top right-hand side of the DNAnexus website.
 
+![launch_app](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/launch_app.png)
 
 The following pop-up will have a 'Launch Analysis' button. Click on this, there should be no need to modify the app launch configurations as they were already specified when you initialized the app using `dx-app-wizard`.
+
+![review_launch](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/review_launch.png)
+
+After clicking on 'Launch Analysis,' the DNAnexus platform will launch a job named after the web app being ran. Upon completion of the job, a URL will be generated.
+
+![app_job](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/app_job.png)
+
+Be sure to wait several minutes after the URL populates before trying to access the link. Otherwise, you will be presented with a "502 Bad Gateway" browser error loading the page. This is normal and occurs when the web server part is ready but the web app is not yet ready to listen to connections.
+
+Clicking on the link will redirect you to the web app Home Page.
+
+![home](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/home.png)
 
 
