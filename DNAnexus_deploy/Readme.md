@@ -11,10 +11,17 @@ For more information about how to run or modify it, see
 <!-- Insert a description of your app here -->
 The `DNAnexus_deploy/Dockerfile` was used to generate the rshiny image used to build the Docker image used in the web app. The `DNAnexus_deploy/dxapp.json` file contains the web app metadata. Lastly, the `DNAnexus_deploy/rds_visualizer.sh` script was used to build and deploy the web app.
 
-## Instructions for Developers
+## Instructions for Web App Build/Deploy
 
 ### 1.Logging in and running dx-app-wizard
 
+Log into the DNAnexus platform using a token. Tokens can be generated under the user profile > API Tokens.
+
+```
+dx login --token <token>
+# Enter your username, token
+# Select the project where you want to deploy your app.
+```
 ### 2. Now, to create a new app called "flying_kmeans", start the app wizard by executing the command:
 
 flying_kmeans
