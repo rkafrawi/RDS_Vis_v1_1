@@ -25,12 +25,12 @@ dx login --token <token>
 ### 2. Now, to create a new app called "flying_kmeans", start the app wizard by executing the command:
 
 flying_kmeans
-├── dxapp.json
-├── src
-│   └── flying_kmeans.sh
-├── Readme.developer.md
-├── Readme.md
-├── resources
+├── dxapp.json <br>
+├── src  <br>
+│   └── flying_kmeans.sh  <br>
+├── Readme.developer.md  <br>
+├── Readme.md <br>
+├── resources <br>
 └── test
 
 ### 3. Create web app
