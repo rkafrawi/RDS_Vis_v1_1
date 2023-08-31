@@ -58,7 +58,7 @@ rds_visualizer <br>
 
 Note that the 'App Name:' parameter is used for the name of the top folder in the directory as well as the name of the shell script in the src subfolder of the directory. 
 
-### 3. Create web app
+### 3. Convert to web app
 
 The [dxapp.json](./DNAnexus_deploy/dxapp.json) file contains the web app metadata. Within this file, find the following line:
 
@@ -144,7 +144,9 @@ main() {
 }
 ```
 
-This shell script deviates from the one present in the official documentation [https://documentation.dnanexus.com/](https://documentation.dnanexus.com/getting-started/developer-tutorials/web-app-let-tutorials/running-rstudio-shiny-server-and-apps) by accessing the tarball the user uploaded to their tarball-containing-subdirectory to configure the web app environment instead of using the rocker/shiny base.
+This shell script deviates from the one present in the official [documentation](https://documentation.dnanexus.com/getting-started/developer-tutorials/web-app-let-tutorials/running-rstudio-shiny-server-and-apps) by accessing the tarball the user uploaded to their tarball-containing-subdirectory to configure the web app environment instead of using the rocker/shiny base.
+
+Note also that the `DESCRIPTION` file is required since the `DisplayMode` parameter is contained here and if you want to change the display to 'Showcase' mode, you would have to modify it within the  `DESCRIPTION` file.
 
 ### 6. Build and deploy
 
