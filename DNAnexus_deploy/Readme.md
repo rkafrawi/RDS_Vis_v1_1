@@ -14,7 +14,7 @@ Here I describe the step-by-step approach I took in order to build and deploy th
 
 ### 1. Logging in and running dx-app-wizard
 
-Log into the DNAnexus platform using a token. Tokens can be generated under the user profile > API Tokens. Upon successful login, the user will be prompted to select an existing project. When creating a token, make sure the token scope is set to all projects. Otherwise, the user will only have VIEW level permissions when selecting a project. 
+Log into the DNAnexus platform using a token. Tokens can be generated under the user profile > API Tokens. Upon successful login, you will be prompted to select an existing project. When creating a token, make sure the token scope is set to all projects. Otherwise, you will only have VIEW level permissions when selecting a project. 
 
 ```
 dx login --token <token>
@@ -24,7 +24,7 @@ dx login --token <token>
 
 ### 2. Start the app wizard to create a new app
 
-The wizard will ask the user questions to finalize the app's configuration.
+The wizard will ask you questions to finalize the app's configuration.
 
 ```
 dx-app-wizard
@@ -80,7 +80,7 @@ Modify it to the following to convert the app to a web app:
 
 ### 4. Containerization
 
-To build the web app, a docker image containing the required packages needs to be created using a rocker/shiny base. To do so, users can follow the logic of the following [Dockerfile](./DNAnexus_deploy/Dockerfile):
+To build the web app, a docker image containing the required packages needs to be created using a rocker/shiny base. To do so, you can follow the logic of the following [Dockerfile](./DNAnexus_deploy/Dockerfile):
 
 ```
 # base image: rocker/verse (with a specific version of R)
@@ -108,11 +108,19 @@ RUN R --no-echo --no-restore --no-save -e "remotes::install_github('mojaveazure/
 ```
 Note that the Seurat install is not done in line with the other required packages. For whatever reason, including Seurat in the following manner: install.packages(c(...,...,'Seurat')) will cause all the packages besides for Seurat to be installed. Without Seurat, the web app will not run. For organizational purposes, this Docker file and all associated images/tarball files will be kept in the `rds_visualizer/resources` subfolder.
 
-Using the Dockerfile, users can then run the following commands in the CLI:
+Using the Dockerfile, you can then run the following commands in the CLI:
 
 ```
 docker build -t <image_name> . 
 docker save <image_name> | gzip > <image_name>.tar.gz
+```
+
+After building the tarball, make a new directory within the project to contain your docker images. Navigate to the new subdirectory and upload your tarball.
+
+```
+dx mkdir <Name>
+dx cd <Name>
+dx upload <image_name>.tar.gz
 ```
 
 ### 5. Create app code
@@ -135,6 +143,9 @@ main() {
  docker run --rm -p 443:3838 -v $PWD/rds_visualizer:/srv/shiny-server/ rds_vis_maria
 }
 ```
+
+This shell script deviates from the one present in the official documentation [https://documentation.dnanexus.com/](https://documentation.dnanexus.com/getting-started/developer-tutorials/web-app-let-tutorials/running-rstudio-shiny-server-and-apps) by accessing the tarball the user uploaded to their tarball-containing-subdirectory to configure the web app environment instead of using the rocker/shiny base.
+
 ### 6. Build and deploy
 
 To build and deploy the app, navigate to the folder above 'rds_visualizer' and execute the following command:
