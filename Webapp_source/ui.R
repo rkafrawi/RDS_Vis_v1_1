@@ -45,7 +45,7 @@ dashboardPage(
                           br(),
                           p("This web app is designed for the visualization and exploration of single-cell RNA-seq data contained in Seurat objects. 
                              It will provide various plots and features to help you analyze and gain insights from your data. 
-                             This webapp has been optimized/structured a DNAnexus build, which circumvents the instance size restrictions of shinyapps.io's base plan."),
+                             This web app has been optimized/structured a DNAnexus build, which circumvents the instance size restrictions of shinyapps.io's base plan."),
                           br(),
                           p("This web app currently consists of four pages of note: a Data Summary page, a Feature Plot page, a Dim Plot page, and a Violin Plot page. 
                             As a general rule of thumb, these pages will not visualize any data if no .rds file has been provided by the user in the data summary page.
@@ -154,7 +154,7 @@ dashboardPage(
                             id = "helpAccordion",
                             accordionItem(
                               title = "Why is my input file not loading?",
-                              "Check if the file path is correct and if the file format is compatible with the application. This webapp currently only supports .rds files with an upper size limitation of 10 GB."
+                              "Check if the file path is correct and if the file format is compatible with the application. This web app currently only supports .rds files with an upper size limitation of 10 GB."
                             ),
                             accordionItem(
                               title = "How do I download these figures?",
