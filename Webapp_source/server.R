@@ -1,5 +1,5 @@
 #increase filesize limit
-options(shiny.maxRequestSize=1000000*1024^2) #max 10gb upload
+base::options(shiny.maxRequestSize=1000000*1024^2) #max 10gb upload
 
 #########           SERVER START          ##########
 
