@@ -14,13 +14,18 @@ Here I describe the step-by-step approach I took in order to build and deploy th
 
 ### 1. Logging in and running dx-app-wizard
 
-Log into the DNAnexus platform using a token. Tokens can be generated under the user profile > API Tokens. Upon successful login, you will be prompted to select an existing project. When creating a token, make sure the token scope is set to all projects as seen below. Otherwise, you will only have VIEW level permissions when selecting a project. 
-![token](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/token.png)
+Log into the DNAnexus platform using a token. Tokens can be generated under the user profile > API Tokens. Upon successful login, you will be prompted to select an existing project. 
+
 ```
 dx login --token <token>
 # Enter your username, token
 # Select the project where you want to deploy your app.
 ```
+
+Note that when creating a token, please ensure the token scope is set to all projects as seen below. Otherwise, you will only have VIEW level permissions when selecting a project.
+
+![token](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/token.png)
+
 
 ### 2. Start the app wizard to create a new app
 
