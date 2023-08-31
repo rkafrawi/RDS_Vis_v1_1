@@ -22,22 +22,23 @@ dx login --token <token>
 # Enter your username, token
 # Select the project where you want to deploy your app.
 ```
-### 2. Now, to create a new app called "flying_kmeans", start the app wizard by executing the command:
+### 2. Now, to create the Web App, start the app wizard by executing the command:
+```
+dx-app-wizard
+```
 
-flying_kmeans  <br>
-├── dxapp.json <br>
-├── src  <br>
-│   └── flying_kmeans.sh  <br>
-├── Readme.developer.md  <br>
-├── Readme.md <br>
-├── resources <br>
-└── test
 
 ### 3. Create web app
+```
+dx-app-wizard
+```
 
 ### 4. Create app code
 
 ### 5. Build and deploy
+```
+dx build -f rds_visualizer
+```
 
 ### 6. Start the app
 
