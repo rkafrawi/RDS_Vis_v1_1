@@ -46,6 +46,7 @@ Modify it to the following:
 ```
 
 ### 4. Create app code
+hi
 ```
 #!/bin/bash
 # flying_kmeans 0.0.1
