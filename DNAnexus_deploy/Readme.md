@@ -167,11 +167,13 @@ A successful build and deploy to the platform will result in the resulting apple
 ```
 
 At this point, your project directory will look something like this:
+
 ![project](https://github.com/rkafrawi/RDS_Vis_v1_1/blob/main/docs/project.png)
 
 ### 7. Start the app
 
-Click on the app under the selected project to run the web app and click 'next.' Then, click on 'Start Analysis' at the top right-hand side of the DNAnexus website and click 'Launch Analysis' on the following popup.
+Click on the app under the selected project to run the web app and click 'next.' 
+Then, click on 'Start Analysis' at the top right-hand side of the DNAnexus website and click 'Launch Analysis' on the following popup.
 
 ## Parting Developer Notes
 
