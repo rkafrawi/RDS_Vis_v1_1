@@ -182,6 +182,6 @@ Click on the app under the selected project to run the web app and click 'next.'
 Then, click on 'Start Analysis' at the top right-hand side of the DNAnexus website.
 
 
-The following popup will have a 'Launch Analysis' button. Click on this, there should be no need to modify the app launch configurations as they were already specified when you initialized the app using `dx-app-wizard`.
+The following pop-up will have a 'Launch Analysis' button. Click on this, there should be no need to modify the app launch configurations as they were already specified when you initialized the app using `dx-app-wizard`.
 
 
